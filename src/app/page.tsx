@@ -1,100 +1,153 @@
+"use client";
 import Image from "next/image";
+import Link from "next/link";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import backgroundImage from './Sky1.svg';
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+  const [searchQuery, setSearchQuery] = useState("");
+  const [searchType, setSearchType] = useState("rent"); // "rent" or "buy"
+  const [neighborhood, setNeighborhood] = useState(""); // Add state for neighborhood selection
+  const router = useRouter();
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (neighborhood) {
+      router.push('/buildings');
+    }
+  };
+
+  return (
+    <div className="min-h-screen text-gray-900 font-[family-name:var(--font-geist-sans)]">
+      {/* Navigation Links */}
+      <nav className="bg-white border-b border-gray-200">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center space-x-8">
+            {/* Logo/Image container */}
+
+            <Link href="/rent" className="px-3 py-4 text-sm font-medium text-gray-900 border-b-2 border-blue-500">RENT</Link>
+            <Link href="/list" className="px-3 py-4 text-sm font-medium text-gray-500 hover:text-gray-900 hover:border-b-2 hover:border-gray-300">LIST</Link>
+            <Link href="/resources" className="px-3 py-4 text-sm font-medium text-gray-500 hover:text-gray-900 hover:border-b-2 hover:border-gray-300">RESOURCES</Link>
+            <Link href="/learn-more" className="px-3 py-4 text-sm font-medium text-gray-500 hover:text-gray-900 hover:border-b-2 hover:border-gray-300">LEARN MORE</Link>
+          </div>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
+      </nav>
+
+      {/* Hero Section */}
+      <div className="relative h-screen">
+        <Image
+          src={backgroundImage}
+          alt="NYC Background"
+          fill
+          className="absolute inset-0 object-cover z-0"
+        />
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center h-full flex flex-col justify-start pt-48">
+          <h1 className="text-4xl font-bold text-gray-900 mb-8">
+            The premier platform for medical office space in <span className="text-blue-600">NYC</span>
+          </h1>
+          
+          {/* Search Box */}
+          <div 
+            className="max-w-4xl mx-auto rounded-xl shadow-lg p-6 mt-8 relative overflow-hidden bg-transparent"
+          >
+            {/* Background Image */}
+            <Image 
+              src="/Sky1.svg"
+              alt="NYC Skyline"
+              fill
+              style={{ objectFit: 'cover', objectPosition: 'center' }}
+              className="absolute inset-0 z-0"
+            />
+            
+            {/* Overlay for readability */}
+            <div className="absolute inset-0 bg-white bg-opacity-80 z-10"></div>
+            
+            {/* Content */}
+            <div className="relative z-20">
+              <div className="flex justify-center space-x-2 mb-6">
+                <button 
+                  className={`px-8 py-3 rounded-md font-medium transition-colors ${
+                    searchType === 'rent' 
+                      ? 'bg-blue-600 text-white' 
+                      : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                  }`}
+                  onClick={() => setSearchType('rent')}
+                >
+                  Lease
+                </button>
+                <button 
+                  className={`px-8 py-3 rounded-md font-medium transition-colors ${
+                    searchType === 'buy' 
+                      ? 'bg-blue-600 text-white' 
+                      : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                  }`}
+                  onClick={() => setSearchType('buy')}
+                >
+                  Buy
+                </button>
+              </div>
+              
+              <form onSubmit={handleSearch} className="flex flex-col md:flex-row gap-4">
+                <div className="flex-grow">
+                  <label className="block text-xs font-medium text-gray-600 mb-2 text-left">LOCATION</label>
+                  <select 
+                    className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent appearance-none bg-white"
+                    value={neighborhood}
+                    onChange={(e) => setNeighborhood(e.target.value)}
+                  >
+                    <option value="">Select Neighborhood</option>
+                    <option value="upper-west-side">Upper West Side</option>
+                  </select>
+                </div>
+                
+                <div className="md:w-48">
+                  <label className="block text-xs font-medium text-gray-600 mb-2 text-left">MINIMUM PRICE</label>
+                  <select className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent appearance-none bg-white">
+                    <option>Min</option>
+                    <option>$2,000</option>
+                    <option>$5,000</option>
+                    <option>$10,000</option>
+                  </select>
+                </div>
+                
+                <div className="md:w-48">
+                  <label className="block text-xs font-medium text-gray-600 mb-2 text-left">MAXIMUM PRICE</label>
+                  <select className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent appearance-none bg-white">
+                    <option>Max</option>
+                    <option>$15,000</option>
+                    <option>$25,000</option>
+                    <option>$50,000</option>
+                  </select>
+                </div>
+                
+                <div className="md:w-auto flex items-end">
+                  <button 
+                    type="submit"
+                    className="w-full md:w-auto bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-md transition-colors"
+                  >
+                    Search
+                  </button>
+                </div>
+              </form>
+              
+              <div className="mt-6 text-sm text-gray-600">
+                Find the perfect medical office space faster: <Link href="/signup" className="text-blue-600 hover:underline font-medium">sign up</Link> or <Link href="/signin" className="text-blue-600 hover:underline font-medium">sign in</Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Footer */}
+      <footer className="bg-gray-900 text-white py-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center">
+            <p className="text-sm text-gray-400">
+              Commercial Leasing Guidelines: <Link href="/leasing-guidelines" className="text-blue-400 hover:underline">Learn more about medical office leasing in NYC</Link>.
+            </p>
+          </div>
+        </div>
       </footer>
     </div>
   );

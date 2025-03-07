@@ -3,9 +3,22 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  
+  /* Warm Navy Blue Palette */
+  --navy-50: #f0f4f9;
+  --navy-100: #d9e2f0;
+  --navy-200: #b3c5e1;
+  --navy-300: #8da8d2;
+  --navy-400: #678bc3;
+  --navy-500: #4a6fb4;
+  --navy-600: #3a5a9f;
+  --navy-700: #2a4580;
+  --navy-800: #1a3061;
+  --navy-900: #0a1b42;
 }
 
-@theme inline {
+/* Replaced invalid @theme inline with standard CSS variables */
+:root {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
