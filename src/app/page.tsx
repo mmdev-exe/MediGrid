@@ -7,7 +7,7 @@ import backgroundImage from './Sky1.svg';
 
 export default function Home() {
   const [searchQuery, setSearchQuery] = useState("");
-  const [searchType, setSearchType] = useState("rent"); // "rent" or "buy"
+  const [searchType, setSearchType] = useState("lease"); // Changed from "rent" to "lease"
   const [neighborhood, setNeighborhood] = useState(""); // Add state for neighborhood selection
   const router = useRouter();
 
@@ -16,6 +16,10 @@ export default function Home() {
     if (neighborhood) {
       router.push('/buildings');
     }
+  };
+
+  const handleListClick = () => {
+    router.push('/list');
   };
 
   return (
@@ -68,23 +72,26 @@ export default function Home() {
               <div className="flex justify-center space-x-2 mb-6">
                 <button 
                   className={`px-8 py-3 rounded-md font-medium transition-colors ${
-                    searchType === 'rent' 
+                    searchType === 'lease' 
                       ? 'bg-blue-600 text-white' 
                       : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
                   }`}
-                  onClick={() => setSearchType('rent')}
+                  onClick={() => setSearchType('lease')}
                 >
                   Lease
                 </button>
                 <button 
                   className={`px-8 py-3 rounded-md font-medium transition-colors ${
-                    searchType === 'buy' 
+                    searchType === 'list' 
                       ? 'bg-blue-600 text-white' 
                       : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
                   }`}
-                  onClick={() => setSearchType('buy')}
+                  onClick={() => {
+                    setSearchType('list');
+                    handleListClick();
+                  }}
                 >
-                  Buy
+                  List
                 </button>
               </div>
               

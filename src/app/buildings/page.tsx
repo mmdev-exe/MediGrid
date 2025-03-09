@@ -64,7 +64,7 @@ export default function FeaturedPage() {
         //"/620w152/620W152nd15pic3.jpg",
         //"/620w152/620W152nd15pic4.jpg",
         //"/620w152/620W152nd15pic5.jpg",
-        "/620w152/620W152ndfloorplan.jpg",
+        "/620w152/620w152ndfloorplan.jpg",
   
         "/620w152/STELLAR620W15215-1.jpeg",
         "/620w152/STELLAR620W15215-2.jpeg",
