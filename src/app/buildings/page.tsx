@@ -16,42 +16,24 @@ export default function FeaturedPage() {
       id: 1,
       title: "Premium Broadway Office Space",
       location: "571 West 139th Street, New York",
-      altAddress: "3420 Broadway",
+      altAddress: "3420 Broadway Apt #XX",
       price: 4860,
       size: 1215,
       images: [
         "/3420-1215/0Building-1.png",
-        "/3420-1215/3420brdwySpace44Floorplan.PNG",
-        "/3420-1215/3420brdwySpace44O1.PNG",
-        "/3420-1215/3420brdwySpace44O2.PNG",
-        "/3420-1215/3420Broadwayunit44O3.PNG",
-        "/3420-1215/STELLAR571W139-44-1-.jpeg",
-        "/3420-1215/STELLAR571W139-44-1-Copy.jpeg",
-        "/3420-1215/STELLAR571W139-44-2-.jpeg",
-        "/3420-1215/STELLAR571W139-44-2--Copy.jpeg",
-        "/3420-1215/STELLAR571W139-44-3-.jpeg",
-        "/3420-1215/STELLAR571W139-44-3--Copy.jpeg",
-        "/3420-1215/STELLAR571W139-44-4-.jpeg",
-        "/3420-1215/STELLAR571W139-44-4--Copy.jpeg",
-        "/3420-1215/STELLAR571W139-44-5-.jpeg",
-        "/3420-1215/STELLAR571W139-44-5--Copy.jpeg",
-        "/3420-1215/STELLAR571W139-44-6-.jpeg",
-        "/3420-1215/STELLAR571W139-44-6--Copy.jpeg",
-        "/3420-1215/STELLAR571W139-44-7-.jpeg",
-        "/3420-1215/STELLAR571W139-44-8-.jpeg",
-        "/3420-1215/STELLAR571W139-44-9-.jpeg",
-        "/3420-1215/STELLAR571W139-44-9--Copy.jpeg",
-        "/3420-1215/STELLAR571W139-44-10-.jpeg",
-        "/3420-1215/STELLAR571W139-44-10--Copy.jpeg",
-        "/3420-1215/STELLAR571W139-44-11-.jpeg",
-        "/3420-1215/STELLAR571W139-44-11--Copy.jpeg",
-        "/3420-1215/STELLAR571W139-44-12-.jpeg",
-        "/3420-1215/STELLAR571W139-44-12--Copy.jpeg",
-        "/3420-1215/STELLAR571W139-44-13-.jpeg",
-        "/3420-1215/STELLAR571W139-44-14-.jpeg",
-        "/3420-1215/STELLAR571W139-44-15-.jpeg",
-        "/3420-1215/STELLAR571W139-44-16-.jpeg",
-        "/3420-1215/STELLAR571W139-44-17-.jpeg"
+        "/3420-1215/IMG_0315.jpg",
+        "/3420-1215/IMG_0316.jpg",
+        
+        "/3420-1215/IMG_0318.jpg",
+        
+        "/3420-1215/IMG_0320.jpg",
+        
+        "/3420-1215/IMG_0322.jpg",
+        "/3420-1215/IMG_0323.jpg",
+        
+        "/3420-1215/IMG_0325.jpg",
+        "/3420-1215/IMG_0326.jpg",
+
       ],
       category: "premium",
       features: [
@@ -71,7 +53,7 @@ export default function FeaturedPage() {
       id: 2,
       title: "Versatile Professional Office",
       location: "620 West 152nd St, New York",
-      altAddress: "N/A",
+      altAddress: "Apt #15",
       price: 2325,
       size: 619,
       images: [
@@ -121,12 +103,12 @@ export default function FeaturedPage() {
       id: 3,
       title: "Spacious Broadway Medical Office",
       location: "556 West 140th St, New York",
-      altAddress: "3430 Broadway",
+      altAddress: "3430 Broadway Apt #05",
       price: 4625,
       size: 1234,
       images: [
-        "https://images.unsplash.com/photo-1561275526-4ec9e43f9dd3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80",
-        "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
+        "/3430-54/0Building.png",
+        "/3430-54/floorplan.png",
       ],
       category: "premium",
       features: [
@@ -146,7 +128,7 @@ export default function FeaturedPage() {
       id: 4,
       title: "Compact Broadway Office",
       location: "556 West 140th St, New York",
-      altAddress: "3430 Broadway",
+      altAddress: "3430 Broadway Apt #26",
       price: 2885,
       size: 770,
       images: [
@@ -175,12 +157,15 @@ export default function FeaturedPage() {
       id: 5,
       title: "Large Broadway Professional Suite",
       location: "556 West 140th St, New York",
-      altAddress: "3430 Broadway",
+      altAddress: "3430 Broadway Apt #54",
       price: 5255,
       size: 1314,
       images: [
-        "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80",
-        "https://images.unsplash.com/photo-1560518883-ce09059eeffa?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2073&q=80"
+        "/3430-54/0Building.png",
+        "/3430-54/3430BrdwySpace-1.png",
+        "/3430-54/3430BrdwySpace-2.png",
+        "/3430-54/floorplan.png",
+
       ],
       category: "premium",
       features: [

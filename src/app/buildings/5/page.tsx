@@ -6,6 +6,27 @@ import Link from "next/link";
 
 export default function BuildingDetail() {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [imageErrors, setImageErrors] = useState<{[key: number]: boolean}>({});
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  
+  // Function to handle image load errors
+  const handleImageError = (index: number) => {
+    setImageErrors(prev => ({...prev, [index]: true}));
+  };
+
+  // Function to get alternative image URL if needed
+  const getImageUrl = (path: string) => {
+    // If the path already ends with .jpeg, return it as is
+    if (path.toLowerCase().endsWith('.jpeg')) return path;
+    
+    // If the path ends with .jpg, but we had an error loading it,
+    // try the .jpeg extension instead
+    if (path.toLowerCase().endsWith('.jpg') && imageErrors[currentImageIndex]) {
+      return path.replace(/\.jpg$/i, '.jpeg');
+    }
+    
+    return path;
+  };
   
   // Data for building ID 5
   const building = {
@@ -20,8 +41,11 @@ export default function BuildingDetail() {
       bathrooms: 2
     },
     images: [
-      "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80",
-      "https://images.unsplash.com/photo-1560518883-ce09059eeffa?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2073&q=80"
+     "/3430-54/0Building.png",
+        "/3430-54/3430BrdwySpace-1.png",
+        "/3430-54/3430BrdwySpace-2.png",
+        "/3430-54/floorplan.png",
+
     ],
     daysOnMarket: 15,
     lastPriceChange: "No changes",
@@ -56,6 +80,54 @@ export default function BuildingDetail() {
 
   return (
     <div className="min-h-screen bg-gray-50">
+      {/* Modal/Lightbox */}
+      {isModalOpen && (
+        <div 
+          className="fixed inset-0 backdrop-blur-sm bg-blue-900/30 z-50 flex items-center justify-center"
+          onClick={() => setIsModalOpen(false)}
+        >
+          <div className="relative w-full h-full flex items-center justify-center p-4">
+            <div className="bg-white rounded-2xl shadow-2xl p-4 max-w-[95vw] max-h-[95vh] relative">
+              <button 
+                className="absolute -top-3 -right-3 text-gray-600 bg-white rounded-full w-8 h-8 flex items-center justify-center shadow-lg hover:bg-gray-100 transition-colors z-10"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setIsModalOpen(false);
+                }}
+              >
+                ×
+              </button>
+              <img 
+                src={getImageUrl(building.images[currentImageIndex])}
+                alt={`${building.title} - ${currentImageIndex + 1}`}
+                className="max-h-[85vh] max-w-full object-contain rounded-lg"
+                onClick={(e) => e.stopPropagation()}
+              />
+              <div className="absolute inset-x-0 top-1/2 -translate-y-1/2 flex justify-between px-4">
+                <button 
+                  className="bg-white/90 hover:bg-white text-blue-600 rounded-full w-10 h-10 flex items-center justify-center shadow-lg transition-all"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setCurrentImageIndex((prev) => (prev === 0 ? building.images.length - 1 : prev - 1));
+                  }}
+                >
+                  ‹
+                </button>
+                <button 
+                  className="bg-white/90 hover:bg-white text-blue-600 rounded-full w-10 h-10 flex items-center justify-center shadow-lg transition-all"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setCurrentImageIndex((prev) => (prev === building.images.length - 1 ? 0 : prev + 1));
+                  }}
+                >
+                  ›
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Breadcrumb Navigation */}
       <div className="max-w-7xl mx-auto px-4 py-4">
         <nav className="text-sm">
@@ -76,11 +148,17 @@ export default function BuildingDetail() {
           <div className="md:col-span-2">
             {/* Image Gallery */}
             <div className="relative mb-6">
-              <img 
-                src={building.images[currentImageIndex]} 
-                alt={building.title}
-                className="w-full h-[500px] object-cover rounded-lg"
-              />
+              <div 
+                className="w-full h-[500px] relative rounded-lg overflow-hidden cursor-pointer"
+                onClick={() => setIsModalOpen(true)}
+              >
+                <img 
+                  src={getImageUrl(building.images[currentImageIndex])} 
+                  alt={building.title}
+                  className="object-cover w-full h-full"
+                  onError={() => handleImageError(currentImageIndex)}
+                />
+              </div>
               <div className="absolute bottom-4 left-4 flex space-x-2">
                 {building.images.map((_, index) => (
                   <button
@@ -108,15 +186,22 @@ export default function BuildingDetail() {
             {/* Thumbnail Gallery */}
             <div className="grid grid-cols-5 gap-2 mb-6">
               {building.images.map((image, index) => (
-                <img
+                <div 
                   key={index}
-                  src={image}
-                  alt={`${building.title} - ${index + 1}`}
-                  className={`w-full h-20 object-cover rounded cursor-pointer ${
+                  className={`w-full h-20 relative rounded cursor-pointer ${
                     index === currentImageIndex ? 'ring-2 ring-blue-500' : ''
                   }`}
-                  onClick={() => setCurrentImageIndex(index)}
-                />
+                  onClick={() => {
+                    setCurrentImageIndex(index);
+                  }}
+                >
+                  <img
+                    src={getImageUrl(image)}
+                    alt={`${building.title} - ${index + 1}`}
+                    className="object-cover w-full h-full"
+                    onError={() => handleImageError(index)}
+                  />
+                </div>
               ))}
             </div>
 

@@ -7,6 +7,67 @@ import Link from "next/link";
 export default function BuildingDetail() {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isTourFormOpen, setIsTourFormOpen] = useState(false);
+  const [tourForm, setTourForm] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    phone: "",
+    message: ""
+  });
+  
+  // Handle form input changes
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setTourForm(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  // Handle form submission
+  const handleTourSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+  
+    // The Invoke URL from your API Gateway
+    const invokeUrl = "https://pr2psoj8pk.execute-api.us-east-1.amazonaws.com/ProdApi/sendTourEmail";
+  
+    try {
+      // Make the fetch request to the API Gateway
+      const response = await fetch(invokeUrl, {
+        method: "POST", // Assuming your API Gateway is set up to handle POST requests
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(tourForm), // Send the tourForm data as JSON
+      });
+  
+      // Check if the request was successful
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+  
+      const data = await response.json();
+      console.log("Tour request response:", data);
+  
+      // Close the form and reset it
+      setIsTourFormOpen(false);
+      setTourForm({
+        firstName: "",
+        lastName: "",
+        email: "",
+        phone: "",
+        message: "",
+      });
+  
+      // Optionally, show a success message to the user
+      alert("Tour request submitted successfully!");
+    } catch (error) {
+      console.error("Error submitting tour request:", error);
+      // Optionally, show an error message to the user
+      alert("Failed to submit tour request. Please try again.");
+    }
+  };
   
   // Data for building ID 1
   const building = {
@@ -22,37 +83,19 @@ export default function BuildingDetail() {
     },
     images: [
         "/3420-1215/0Building-1.png",
-        "/3420-1215/3420brdwySpace44Floorplan.PNG",
-        "/3420-1215/3420brdwySpace44O1.PNG",
-        "/3420-1215/3420brdwySpace44O2.PNG",
-        "/3420-1215/3420Broadwayunit44O3.PNG",
-        "/3420-1215/STELLAR571W139-44-1-.jpeg",
-        "/3420-1215/STELLAR571W139-44-1-Copy.jpeg",
-        "/3420-1215/STELLAR571W139-44-2-.jpeg",
-        "/3420-1215/STELLAR571W139-44-2--Copy.jpeg",
-        "/3420-1215/STELLAR571W139-44-3-.jpeg",
-        "/3420-1215/STELLAR571W139-44-3--Copy.jpeg",
-        "/3420-1215/STELLAR571W139-44-4-.jpeg",
-        "/3420-1215/STELLAR571W139-44-4--Copy.jpeg",
-        "/3420-1215/STELLAR571W139-44-5-.jpeg",
-        "/3420-1215/STELLAR571W139-44-5--Copy.jpeg",
-        "/3420-1215/STELLAR571W139-44-6-.jpeg",
-        "/3420-1215/STELLAR571W139-44-6--Copy.jpeg",
-        "/3420-1215/STELLAR571W139-44-7-.jpeg",
-        "/3420-1215/STELLAR571W139-44-8-.jpeg",
-        "/3420-1215/STELLAR571W139-44-9-.jpeg",
-        "/3420-1215/STELLAR571W139-44-9--Copy.jpeg",
-        "/3420-1215/STELLAR571W139-44-10-.jpeg",
-        "/3420-1215/STELLAR571W139-44-10--Copy.jpeg",
-        "/3420-1215/STELLAR571W139-44-11-.jpeg",
-        "/3420-1215/STELLAR571W139-44-11--Copy.jpeg",
-        "/3420-1215/STELLAR571W139-44-12-.jpeg",
-        "/3420-1215/STELLAR571W139-44-12--Copy.jpeg",
-        "/3420-1215/STELLAR571W139-44-13-.jpeg",
-        "/3420-1215/STELLAR571W139-44-14-.jpeg",
-        "/3420-1215/STELLAR571W139-44-15-.jpeg",
-        "/3420-1215/STELLAR571W139-44-16-.jpeg",
-        "/3420-1215/STELLAR571W139-44-17-.jpeg"
+        "/3420-1215/IMG_0315.jpg",
+        "/3420-1215/IMG_0316.jpg",
+        
+        "/3420-1215/IMG_0318.jpg",
+        
+        "/3420-1215/IMG_0320.jpg",
+        
+        "/3420-1215/IMG_0322.jpg",
+        "/3420-1215/IMG_0323.jpg",
+        
+        "/3420-1215/IMG_0325.jpg",
+        "/3420-1215/IMG_0326.jpg",
+
       ],
     daysOnMarket: 22,
     lastPriceChange: "No changes",
@@ -199,10 +242,13 @@ export default function BuildingDetail() {
                   <p className="text-sm text-gray-600">{building.agent.company}</p>
                 </div>
               </div>
-              <button className="w-full bg-blue-500 text-white py-3 rounded-lg mb-3">
+              <button 
+                className="w-full bg-blue-500 text-white py-3 rounded-lg mb-3 hover:bg-blue-600 transition-colors"
+                onClick={() => setIsTourFormOpen(true)}
+              >
                 REQUEST A TOUR
               </button>
-              <button className="w-full border border-gray-300 text-gray-700 py-3 rounded-lg">
+              <button className="w-full border border-gray-300 text-gray-700 py-3 rounded-lg hover:bg-gray-50 transition-colors">
                 ASK A QUESTION
               </button>
             </div>
@@ -235,6 +281,127 @@ export default function BuildingDetail() {
           </div>
         </div>
       </div>
+
+      {/* Tour Request Form Modal */}
+      {isTourFormOpen && (
+        <div 
+          className="fixed inset-0 backdrop-blur-sm bg-blue-900/30 z-50 flex items-center justify-center"
+          onClick={() => setIsTourFormOpen(false)}
+        >
+          <div 
+            className="bg-white rounded-lg shadow-xl p-6 max-w-md w-full mx-4"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-xl font-bold">Schedule a Tour</h2>
+              <button 
+                className="text-gray-500 hover:text-gray-700"
+                onClick={() => setIsTourFormOpen(false)}
+              >
+                ×
+              </button>
+            </div>
+            
+            <p className="text-gray-600 mb-4">
+              Complete the form below to request a tour of {building.title}
+            </p>
+            
+            <form onSubmit={handleTourSubmit}>
+              <div className="grid grid-cols-2 gap-4 mb-4">
+                <div>
+                  <label htmlFor="firstName" className="block text-sm font-medium text-gray-700 mb-1">
+                    First Name*
+                  </label>
+                  <input
+                    type="text"
+                    id="firstName"
+                    name="firstName"
+                    value={tourForm.firstName}
+                    onChange={handleInputChange}
+                    required
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  />
+                </div>
+                <div>
+                  <label htmlFor="lastName" className="block text-sm font-medium text-gray-700 mb-1">
+                    Last Name*
+                  </label>
+                  <input
+                    type="text"
+                    id="lastName"
+                    name="lastName"
+                    value={tourForm.lastName}
+                    onChange={handleInputChange}
+                    required
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  />
+                </div>
+              </div>
+              
+              <div className="mb-4">
+                <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+                  Email Address*
+                </label>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  value={tourForm.email}
+                  onChange={handleInputChange}
+                  required
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
+              
+              <div className="mb-4">
+                <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">
+                  Phone Number*
+                </label>
+                <input
+                  type="tel"
+                  id="phone"
+                  name="phone"
+                  value={tourForm.phone}
+                  onChange={handleInputChange}
+                  required
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
+              
+              <div className="mb-6">
+                <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-1">
+                  Add a note (optional)
+                </label>
+                <textarea
+                  id="message"
+                  name="message"
+                  value={tourForm.message}
+                  onChange={handleInputChange}
+                  rows={3}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  placeholder="Tell us about your preferred tour time or any questions you have..."
+                />
+              </div>
+              
+              <div className="flex justify-end">
+                <button
+                  type="button"
+                  className="mr-2 px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50"
+                  onClick={() => setIsTourFormOpen(false)}
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
+                >
+                  Submit Request
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
 
       {/* Image Modal */}
       {isModalOpen && (
