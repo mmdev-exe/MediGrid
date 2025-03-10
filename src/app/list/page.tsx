@@ -19,7 +19,8 @@ export default function ListRentalPage() {
     virtualTour: false,
     description: "",
     fullDescription: "",
-    features: ["", "", "", "", "", ""]
+    features: ["", "", "", "", "", ""],
+    status: "pending"
   });
   
   // Images state
@@ -108,19 +109,88 @@ export default function ListRentalPage() {
     e.preventDefault();
     setIsSubmitting(true);
     setSubmitError("");
-    
+
     try {
-      // Simulate API call with a timeout
-      await new Promise(resolve => setTimeout(resolve, 1500));
+      // Validate required fields
+      const requiredFields = [
+        "title", "location", "neighborhood", "price", 
+        "size", "category", "availableFrom", "description", "fullDescription"
+      ];
       
-      // Here you would normally send the data to your backend
-      // const response = await fetch('/api/list-rental', {
-      //   method: 'POST',
-      //   body: formData,
-      // });
+      for (const field of requiredFields) {
+        if (!formData[field as keyof typeof formData]) {
+          throw new Error(`Missing required field: ${field}`);
+        }
+      }
+
+      // Create JSON payload
+      const listingData = {
+        title: formData.title,
+        location: formData.location,
+        neighborhood: formData.neighborhood,
+        altAddress: formData.altAddress,
+        price: parseFloat(formData.price),
+        size: parseInt(formData.size),
+        category: formData.category,
+        availableFrom: formData.availableFrom,
+        virtualTour: formData.virtualTour,
+        description: formData.description,
+        fullDescription: formData.fullDescription,
+        features: formData.features.filter(feature => feature.trim() !== ""),
+        status: formData.status,
+        submittedAt: new Date().toISOString()
+      };
+
+      console.log("Submitting data:", listingData);
+
+      // Try both URL formats
+      const urls = [
+        "https://559h09g3y1.execute-api.us-east-1.amazonaws.com/Sub",
+        "https://559h09g3y1.execute-api.us-east-1.amazonaws.com/Sub/submit-listing"
+      ];
       
+      let response = null;
+      let error = null;
+      
+      // Try each URL
+      for (const url of urls) {
+        try {
+          console.log(`Trying URL: ${url}`);
+          response = await fetch(url, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              // Add these headers to help with CORS issues
+              "Accept": "application/json",
+              "Origin": window.location.origin
+            },
+            body: JSON.stringify(listingData),
+          });
+          
+          if (response.ok) {
+            console.log(`Success with URL: ${url}`);
+            break;
+          } else {
+            const errorText = await response.text();
+            console.error(`Error with URL ${url}:`, response.status, response.statusText, errorText);
+            error = new Error(`Failed with URL ${url}: ${response.status} ${response.statusText}`);
+          }
+        } catch (e) {
+          console.error(`Exception with URL ${url}:`, e);
+          error = e;
+        }
+      }
+
+      if (!response || !response.ok) {
+        throw error || new Error("Failed to submit listing with all URLs");
+      }
+
+      const result = await response.json();
+      console.log("Listing submitted successfully:", result);
+
       setSubmitSuccess(true);
-      // Reset form after successful submission
+
+      // Reset form
       setFormData({
         title: "",
         location: "",
@@ -133,12 +203,14 @@ export default function ListRentalPage() {
         virtualTour: false,
         description: "",
         fullDescription: "",
-        features: ["", "", "", "", "", ""]
+        features: ["", "", "", "", "", ""],
+        status: "pending"
       });
       setImages([]);
       setImagePreviewUrls([]);
     } catch (error) {
-      setSubmitError("There was an error submitting your listing. Please try again.");
+      console.error("Error submitting listing:", error);
+      setSubmitError(`There was an error submitting your listing: ${error instanceof Error ? error.message : 'Unknown error'}. Check the console for details.`);
     } finally {
       setIsSubmitting(false);
     }
@@ -355,6 +427,21 @@ export default function ListRentalPage() {
                           placeholder="e.g., Immediate, Next Month, 2 Months"
                         />
                       </div>
+                    </div>
+                    
+                    <div>
+                      <label htmlFor="status" className="block text-sm font-medium text-gray-700 mb-1">
+                        Status
+                      </label>
+                      <input
+                        type="text"
+                        id="status"
+                        name="status"
+                        value="Pending Review"
+                        disabled
+                        className="w-full px-4 py-2.5 rounded-lg border border-gray-300 bg-gray-100 text-gray-500 cursor-not-allowed"
+                      />
+                      <p className="mt-1 text-xs text-gray-500">This field cannot be edited</p>
                     </div>
                     
                     <div className="flex items-center">
