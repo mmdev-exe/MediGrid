@@ -641,7 +641,6 @@ export default function ListRentalPage() {
         </div>
       </main>
       
-      <Footer />
     </div>
   );
 }

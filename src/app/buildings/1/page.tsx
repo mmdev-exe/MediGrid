@@ -9,6 +9,7 @@ export default function BuildingDetail() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isTourFormOpen, setIsTourFormOpen] = useState(false);
   const [isQuestionFormOpen, setIsQuestionFormOpen] = useState(false);
+  const [formMode, setFormMode] = useState<'tour' | 'question'>('tour');
   const [activeLocationTab, setActiveLocationTab] = useState("transit");
   const [tourForm, setTourForm] = useState({
     firstName: "",
@@ -25,6 +26,45 @@ export default function BuildingDetail() {
     phone: "",
     question: ""
   });
+  
+  const [isShareModalOpen, setIsShareModalOpen] = useState(false);
+
+  // Function to handle sharing
+  const handleShare = async () => {
+    const shareUrl = window.location.href;
+    const shareTitle = `${building.title} - MediGrid`;
+    const shareText = `Check out this property: ${building.title} at ${building.location}`;
+
+    // Use Web Share API if available
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: shareTitle,
+          text: shareText,
+          url: shareUrl,
+        });
+        return;
+      } catch (error) {
+        console.error('Error sharing:', error);
+      }
+    }
+
+    // If Web Share API is not available, open our custom share modal
+    setIsShareModalOpen(true);
+  };
+
+  // Function to copy URL to clipboard
+  const copyToClipboard = () => {
+    const url = window.location.href;
+    navigator.clipboard.writeText(url)
+      .then(() => {
+        alert('Link copied to clipboard!');
+        setIsShareModalOpen(false);
+      })
+      .catch(err => {
+        console.error('Failed to copy: ', err);
+      });
+  };
   
   // Handle form input changes
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -68,13 +108,18 @@ export default function BuildingDetail() {
         message: "",
       });
   
-      alert("Tour request submitted successfully!");
+      // Show different message based on form mode
+      if (formMode === 'tour') {
+        alert("Tour request submitted successfully!");
+      } else {
+        alert("Your question has been submitted successfully!");
+      }
     } catch (error) {
       console.error("Error submitting tour request:", error);
       alert(`Failed to submit tour request: ${error instanceof Error ? error.message : 'Unknown error'}`);
     }
-    };
-    
+  };
+  
   // Handle question form input changes
   const handleQuestionInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -276,7 +321,10 @@ export default function BuildingDetail() {
                 <button className="bg-white p-2 rounded-full shadow-lg">
                   <FiHeart className="w-5 h-5" />
                 </button>
-                <button className="bg-white p-2 rounded-full shadow-lg">
+                <button 
+                  className="bg-white p-2 rounded-full shadow-lg"
+                  onClick={handleShare}
+                >
                   <FiShare2 className="w-5 h-5" />
                 </button>
                 <button className="bg-white p-2 rounded-full shadow-lg">
@@ -474,13 +522,19 @@ export default function BuildingDetail() {
               </div>
               <button 
                 className="w-full bg-blue-500 text-white py-3 rounded-lg mb-3 hover:bg-blue-600 transition-colors"
-                onClick={() => setIsTourFormOpen(true)}
+                onClick={() => {
+                  setFormMode('tour');
+                  setIsTourFormOpen(true);
+                }}
               >
                 REQUEST A TOUR
               </button>
               <button 
                 className="w-full border border-gray-300 text-gray-700 py-3 rounded-lg hover:bg-gray-50 transition-colors"
-                onClick={() => setIsQuestionFormOpen(true)}
+                onClick={() => {
+                  setFormMode('question');
+                  setIsTourFormOpen(true);
+                }}
               >
                 ASK A QUESTION
               </button>
@@ -500,7 +554,7 @@ export default function BuildingDetail() {
             </div>
 
             {/* Building Amenities */}
-            <div className="bg-white rounded-lg p-6 shadow-sm">
+            <div className="bg-white rounded-lg p-6 shadow-sm mb-6">
               <h2 className="font-bold mb-4">Building Amenities</h2>
               <div className="grid grid-cols-2 gap-3">
                 {building.buildingAmenities.map((amenity, index) => (
@@ -509,6 +563,50 @@ export default function BuildingDetail() {
                     <span className="text-gray-700">{amenity.name}</span>
                   </div>
                 ))}
+              </div>
+            </div>
+
+            {/* Google Ad Placeholder */}
+            <div className="bg-gray-100 rounded-lg p-4 mb-6 border border-dashed border-gray-300">
+              <div className="flex flex-col items-center justify-center h-60 text-gray-500">
+                <p className="text-center mb-2 font-medium">Google AdSense</p>
+                <p className="text-sm text-center"></p>
+                {/* Uncomment and replace with your actual Google AdSense code when ready */}
+                {/* 
+                <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-YOUR_PUBLISHER_ID"
+                  crossOrigin="anonymous"></script>
+                <ins className="adsbygoogle"
+                  style={{ display: 'block' }}
+                  data-ad-client="ca-pub-YOUR_PUBLISHER_ID"
+                  data-ad-slot="YOUR_AD_SLOT_ID"
+                  data-ad-format="auto"
+                  data-full-width-responsive="true"></ins>
+                <script>
+                  (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
+                */}
+              </div>
+            </div>
+
+            {/* Second Google Ad Placeholder */}
+            <div className="bg-gray-100 rounded-lg p-4 mb-6 border border-dashed border-gray-300">
+              <div className="flex flex-col items-center justify-center h-60 text-gray-500">
+                <p className="text-center mb-2 font-medium">Google AdSense</p>
+                <p className="text-sm text-center"></p>
+                {/* Uncomment and replace with your actual Google AdSense code when ready */}
+                {/* 
+                <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-YOUR_PUBLISHER_ID"
+                  crossOrigin="anonymous"></script>
+                <ins className="adsbygoogle"
+                  style={{ display: 'block' }}
+                  data-ad-client="ca-pub-YOUR_PUBLISHER_ID"
+                  data-ad-slot="YOUR_SECOND_AD_SLOT_ID"
+                  data-ad-format="auto"
+                  data-full-width-responsive="true"></ins>
+                <script>
+                  (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
+                */}
               </div>
             </div>
           </div>
@@ -526,7 +624,9 @@ export default function BuildingDetail() {
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex justify-between items-center mb-4">
-              <h2 className="text-xl font-bold">Schedule a Tour</h2>
+              <h2 className="text-xl font-bold">
+                {formMode === 'tour' ? 'Schedule a Tour' : 'Ask a Question'}
+              </h2>
               <button 
                 className="text-gray-500 hover:text-gray-700"
                 onClick={() => setIsTourFormOpen(false)}
@@ -536,7 +636,10 @@ export default function BuildingDetail() {
             </div>
             
             <p className="text-gray-600 mb-4">
-              Complete the form below to request a tour of {building.title}
+              {formMode === 'tour' 
+                ? `Complete the form below to request a tour of ${building.title}`
+                : `Complete the form below to ask a question about ${building.title}`
+              }
             </p>
             
             <form onSubmit={handleTourSubmit}>
@@ -636,128 +739,6 @@ export default function BuildingDetail() {
         </div>
       )}
 
-      {/* Ask a Question Form Modal */}
-      {isQuestionFormOpen && (
-        <div 
-          className="fixed inset-0 backdrop-blur-sm bg-blue-900/30 z-50 flex items-center justify-center"
-          onClick={() => setIsQuestionFormOpen(false)}
-        >
-          <div 
-            className="bg-white rounded-lg shadow-xl p-6 max-w-md w-full mx-4"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div className="flex justify-between items-center mb-4">
-              <h2 className="text-xl font-bold">Ask a Question</h2>
-              <button 
-                className="text-gray-500 hover:text-gray-700"
-                onClick={() => setIsQuestionFormOpen(false)}
-              >
-                ×
-              </button>
-            </div>
-            
-            <p className="text-gray-600 mb-4">
-              Have a question about {building.title}? We're here to help!
-            </p>
-            
-            <form onSubmit={handleQuestionSubmit}>
-              <div className="grid grid-cols-2 gap-4 mb-4">
-                <div>
-                  <label htmlFor="firstName" className="block text-sm font-medium text-gray-700 mb-1">
-                    First Name*
-                  </label>
-                  <input
-                    type="text"
-                    id="firstName"
-                    name="firstName"
-                    value={questionForm.firstName}
-                    onChange={handleQuestionInputChange}
-                    required
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  />
-                </div>
-                <div>
-                  <label htmlFor="lastName" className="block text-sm font-medium text-gray-700 mb-1">
-                    Last Name*
-                  </label>
-                  <input
-                    type="text"
-                    id="lastName"
-                    name="lastName"
-                    value={questionForm.lastName}
-                    onChange={handleQuestionInputChange}
-                    required
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  />
-                </div>
-              </div>
-              
-              <div className="mb-4">
-                <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
-                  Email Address*
-                </label>
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  value={questionForm.email}
-                  onChange={handleQuestionInputChange}
-                  required
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
-              </div>
-              
-              <div className="mb-4">
-                <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">
-                  Phone Number*
-                </label>
-                <input
-                  type="tel"
-                  id="phone"
-                  name="phone"
-                  value={questionForm.phone}
-                  onChange={handleQuestionInputChange}
-                  required
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
-              </div>
-              
-              <div className="mb-6">
-                <label htmlFor="question" className="block text-sm font-medium text-gray-700 mb-1">
-                  Your Question*
-                </label>
-                <textarea
-                  id="question"
-                  name="question"
-                  value={questionForm.question}
-                  onChange={handleQuestionInputChange}
-                  rows={4}
-                  required
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  placeholder="What would you like to know about this property?"
-                />
-              </div>
-              
-              <div className="flex justify-end">
-                <button
-                  type="button"
-                  className="mr-2 px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50"
-                  onClick={() => setIsQuestionFormOpen(false)}
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
-                >
-                  Submit Question
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
-
       {/* Image Modal */}
       {isModalOpen && (
         <div 
@@ -801,6 +782,75 @@ export default function BuildingDetail() {
                   ›
                 </button>
               </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Share Modal */}
+      {isShareModalOpen && (
+        <div 
+          className="fixed inset-0 backdrop-blur-sm bg-blue-900/30 z-50 flex items-center justify-center"
+          onClick={() => setIsShareModalOpen(false)}
+        >
+          <div 
+            className="bg-white rounded-lg shadow-xl p-6 max-w-md w-full mx-4"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-xl font-bold">Share this property</h2>
+              <button 
+                className="text-gray-500 hover:text-gray-700"
+                onClick={() => setIsShareModalOpen(false)}
+              >
+                ×
+              </button>
+            </div>
+            
+            <div className="space-y-4 mb-6">
+              <button 
+                onClick={copyToClipboard}
+                className="w-full flex items-center justify-center space-x-2 bg-gray-100 hover:bg-gray-200 text-gray-800 py-3 rounded-lg transition-colors"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                </svg>
+                <span>Copy Link</span>
+              </button>
+              
+              <a 
+                href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full flex items-center justify-center space-x-2 bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg transition-colors"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v3.385z" />
+                </svg>
+                <span>Share on Facebook</span>
+              </a>
+              
+              <a 
+                href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(`Check out this property: ${building.title} at ${building.location}`)}&url=${encodeURIComponent(window.location.href)}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full flex items-center justify-center space-x-2 bg-blue-400 hover:bg-blue-500 text-white py-3 rounded-lg transition-colors"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z" />
+                </svg>
+                <span>Share on Twitter</span>
+              </a>
+              
+              <a 
+                href={`mailto:?subject=${encodeURIComponent(`Check out this property: ${building.title}`)}&body=${encodeURIComponent(`I found this property and thought you might be interested: ${building.title} at ${building.location}\n\n${window.location.href}`)}`}
+                className="w-full flex items-center justify-center space-x-2 bg-gray-800 hover:bg-gray-900 text-white py-3 rounded-lg transition-colors"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                </svg>
+                <span>Share via Email</span>
+              </a>
             </div>
           </div>
         </div>

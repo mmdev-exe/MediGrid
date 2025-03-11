@@ -32,7 +32,7 @@ export default function Home() {
 
             <Link href="/rent" className="px-3 py-4 text-sm font-medium text-gray-900 border-b-2 border-blue-500">RENT</Link>
             <Link href="/list" className="px-3 py-4 text-sm font-medium text-gray-500 hover:text-gray-900 hover:border-b-2 hover:border-gray-300">LIST</Link>
-            <Link href="/resources" className="px-3 py-4 text-sm font-medium text-gray-500 hover:text-gray-900 hover:border-b-2 hover:border-gray-300">RESOURCES</Link>
+            {/* <Link href="/resources" className="px-3 py-4 text-sm font-medium text-gray-500 hover:text-gray-900 hover:border-b-2 hover:border-gray-300">RESOURCES</Link> */}
             <Link href="/learn-more" className="px-3 py-4 text-sm font-medium text-gray-500 hover:text-gray-900 hover:border-b-2 hover:border-gray-300">LEARN MORE</Link>
           </div>
         </div>
@@ -46,7 +46,7 @@ export default function Home() {
           fill
           className="absolute inset-0 object-cover z-0"
         />
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center h-full flex flex-col justify-start pt-48">
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center h-full flex flex-col justify-start pt-48 pb-24 md:pb-16">
           <h1 className="text-4xl font-bold text-gray-900 mb-8">
             The premier platform for medical office space in <span className="text-blue-600">NYC</span>
           </h1>

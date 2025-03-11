@@ -184,6 +184,8 @@ export default function BuildingDetail() {
     // The Invoke URL from your API Gateway
     const invokeUrl = "https://pr2psoj8pk.execute-api.us-east-1.amazonaws.com/ProdApi/sendQuestionEmail";
 
+    console.log("Sending question payload:", JSON.stringify(questionForm, null, 2));
+
     try {
       // Make the fetch request to the API Gateway
       const response = await fetch(invokeUrl, {
@@ -194,13 +196,14 @@ export default function BuildingDetail() {
         body: JSON.stringify(questionForm),
       });
 
-      // Check if the request was successful
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-
+      // Parse the JSON response
       const data = await response.json();
       console.log("Question submission response:", data);
+
+      // Check if the request was successful
+      if (!response.ok) {
+        throw new Error(data.message || `HTTP error! Status: ${response.status}`);
+      }
 
       // Close the form and reset it
       setIsQuestionFormOpen(false);
@@ -217,7 +220,7 @@ export default function BuildingDetail() {
     } catch (error) {
       console.error("Error submitting question:", error);
       // Show an error message to the user
-      alert("Failed to submit your question. Please try again.");
+      alert(`Failed to submit your question: ${error instanceof Error ? error.message : 'Unknown error'}`);
     }
   };
 
@@ -571,7 +574,7 @@ export default function BuildingDetail() {
             </div>
 
             {/* Building Amenities */}
-            <div className="bg-white rounded-lg p-6 shadow-sm">
+            <div className="bg-white rounded-lg p-6 shadow-sm mb-6">
               <h2 className="font-bold mb-4">Building Amenities</h2>
               <div className="grid grid-cols-2 gap-3">
                 {building.buildingAmenities.map((amenity, index) => (
@@ -580,6 +583,50 @@ export default function BuildingDetail() {
                     <span className="text-gray-700">{amenity.name}</span>
                   </div>
                 ))}
+              </div>
+            </div>
+
+            {/* Google Ad Placeholder */}
+            <div className="bg-gray-100 rounded-lg p-4 mb-6 border border-dashed border-gray-300">
+              <div className="flex flex-col items-center justify-center h-60 text-gray-500">
+                <p className="text-center mb-2 font-medium">Google AdSense</p>
+                <p className="text-sm text-center">Advertisement will appear here</p>
+                {/* Uncomment and replace with your actual Google AdSense code when ready */}
+                {/* 
+                <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-YOUR_PUBLISHER_ID"
+                  crossOrigin="anonymous"></script>
+                <ins className="adsbygoogle"
+                  style={{ display: 'block' }}
+                  data-ad-client="ca-pub-YOUR_PUBLISHER_ID"
+                  data-ad-slot="YOUR_AD_SLOT_ID"
+                  data-ad-format="auto"
+                  data-full-width-responsive="true"></ins>
+                <script>
+                  (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
+                */}
+              </div>
+            </div>
+
+            {/* Second Google Ad Placeholder */}
+            <div className="bg-gray-100 rounded-lg p-4 mb-6 border border-dashed border-gray-300">
+              <div className="flex flex-col items-center justify-center h-60 text-gray-500">
+                <p className="text-center mb-2 font-medium">Google AdSense</p>
+                <p className="text-sm text-center">Second advertisement will appear here</p>
+                {/* Uncomment and replace with your actual Google AdSense code when ready */}
+                {/* 
+                <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-YOUR_PUBLISHER_ID"
+                  crossOrigin="anonymous"></script>
+                <ins className="adsbygoogle"
+                  style={{ display: 'block' }}
+                  data-ad-client="ca-pub-YOUR_PUBLISHER_ID"
+                  data-ad-slot="YOUR_SECOND_AD_SLOT_ID"
+                  data-ad-format="auto"
+                  data-full-width-responsive="true"></ins>
+                <script>
+                  (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
+                */}
               </div>
             </div>
           </div>
