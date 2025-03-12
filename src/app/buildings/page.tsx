@@ -190,6 +190,7 @@ export default function FeaturedPage() {
       size: 606,
       images: [
         "/50w97-01E/0Building.png",
+        "/50w97-01E/image.jpg",
         
 
       ],
@@ -216,6 +217,7 @@ export default function FeaturedPage() {
       size: 494,
       images: [
         "/50w97-01I/0Building.png",
+        "/50w97-01I/image.jpg",
       ],
       category: "compact",
       features: [
@@ -240,6 +242,7 @@ export default function FeaturedPage() {
       size: 865,
       images: [
         "/50w97-01C/0Building.png",
+        "/50w97-01C/image.jpg",
       ],
       category: "premium",
       features: [

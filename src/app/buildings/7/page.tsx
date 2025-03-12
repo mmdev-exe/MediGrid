@@ -60,7 +60,7 @@ export default function BuildingDetail() {
     },
     images: [
       "/50w97-01I/0Building.png",
-      "/50w97-01I/1Floorplan.png",
+      "/50w97-01I/image.jpg",
     ],
     daysOnMarket: 7,
     lastPriceChange: "No changes",
