@@ -95,8 +95,8 @@ export default function Home() {
                 </button>
               </div>
               
-              <form onSubmit={handleSearch} className="flex flex-col md:flex-row gap-4">
-                <div className="flex-grow">
+              <form onSubmit={handleSearch} className="flex flex-col gap-4">
+                <div className="w-full">
                   <label className="block text-xs font-medium text-gray-600 mb-2 text-left">LOCATION</label>
                   <select 
                     className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent appearance-none bg-white"
@@ -108,7 +108,7 @@ export default function Home() {
                   </select>
                 </div>
                 
-                <div className="md:w-48">
+                <div className="w-full">
                   <label className="block text-xs font-medium text-gray-600 mb-2 text-left">MINIMUM PRICE</label>
                   <select className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent appearance-none bg-white">
                     <option>Min</option>
@@ -118,7 +118,7 @@ export default function Home() {
                   </select>
                 </div>
                 
-                <div className="md:w-48">
+                <div className="w-full">
                   <label className="block text-xs font-medium text-gray-600 mb-2 text-left">MAXIMUM PRICE</label>
                   <select className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent appearance-none bg-white">
                     <option>Max</option>
@@ -128,10 +128,10 @@ export default function Home() {
                   </select>
                 </div>
                 
-                <div className="md:w-auto flex items-end">
+                <div className="w-full">
                   <button 
                     type="submit"
-                    className="w-full md:w-auto bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-md transition-colors"
+                    className="w-full bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-md transition-colors"
                   >
                     Search
                   </button>
