@@ -52,7 +52,7 @@ export default function BuildingDetail() {
     title: "Spacious Upper West Side Suite",
     location: "50 West 97th Street, New York",
     altAddress: "Apt #01C",
-    price: 6488,
+    price: 9400,
     size: 865,
     rooms: {
       offices: 4,

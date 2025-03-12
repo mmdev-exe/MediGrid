@@ -30,10 +30,8 @@ export default function Home() {
           <div className="flex items-center space-x-8">
             {/* Logo/Image container */}
 
-            <Link href="/rent" className="px-3 py-4 text-sm font-medium text-gray-900 border-b-2 border-blue-500">RENT</Link>
-            <Link href="/list" className="px-3 py-4 text-sm font-medium text-gray-500 hover:text-gray-900 hover:border-b-2 hover:border-gray-300">LIST</Link>
-            {/* <Link href="/resources" className="px-3 py-4 text-sm font-medium text-gray-500 hover:text-gray-900 hover:border-b-2 hover:border-gray-300">RESOURCES</Link> */}
-            <Link href="/learn-more" className="px-3 py-4 text-sm font-medium text-gray-500 hover:text-gray-900 hover:border-b-2 hover:border-gray-300">LEARN MORE</Link>
+            <Link href="/signin" className="px-3 py-4 text-sm font-medium text-gray-500 hover:text-gray-900 hover:border-b-2 hover:border-gray-300">LOG IN</Link>
+            <Link href="/list" className="px-3 py-4 text-sm font-medium text-gray-500 hover:text-gray-900 hover:border-b-2 hover:border-gray-300">LIST YOUR SPACE</Link>
           </div>
         </div>
       </nav>

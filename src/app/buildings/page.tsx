@@ -133,11 +133,11 @@ export default function FeaturedPage() {
       size: 770,
       images: [
         "/3430-770/0Building.png",
-        "/3430-770/3430BrdwySpace26O1.png",
-        "/3430-770/3430BrdwySpace26O2.png",
-        "/3430-770/3430BrdwySpace26O3.png",
-          "/3430-770/3430BrdwySpace26.png",
-        "/3430-770/Screenshot2023-03-07020307.png"
+        "/3430-770/3430BrdwySpace26O1.PNG",
+        "/3430-770/3430BrdwySpace26O2.PNG",
+        "/3430-770/3430BrdwySpace26O3.PNG",
+        "/3430-770/3430BrdwySpace26.PNG",
+        "/3430-770/3430770.png",
       ],
       category: "compact",
       features: [
