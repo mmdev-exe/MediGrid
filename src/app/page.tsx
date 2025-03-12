@@ -53,7 +53,7 @@ export default function Home() {
           
           {/* Search Box */}
           <div 
-            className="max-w-4xl mx-auto rounded-xl shadow-lg p-6 mt-8 relative overflow-hidden bg-transparent"
+            className="max-w-4xl mx-auto rounded-xl shadow-lg p-6 mt-8 relative bg-transparent"
           >
             {/* Background Image */}
             <Image 
