@@ -1,4 +1,4 @@
-"use client"
+ "use client"
 
 import { useState } from "react";
 import Footer from "@/components/Footer";
@@ -236,12 +236,24 @@ export default function FeaturedPage() {
       title: "Spacious Upper West Side Suite",
       location: "50 West 97th Street, New York",
       altAddress: "Apt #01C",
-      price: 6488, // 865 sq ft × $90/RSF = $77,850/year ÷ 12 = $6,487.50/month
+      price: 6488,
       size: 865,
+      rooms: {
+        offices: 4,
+        bathrooms: 1
+      },
       images: [
         "/50w97-01C/0Building.png",
+        "/50w97-01C/1Floorplan.png",
       ],
-      category: "premium",
+      daysOnMarket: 14,
+      lastPriceChange: "No changes",
+      agent: {
+        name: "Stellar Management",
+        company: "Stellar Management",
+        office: "Leasing/Sales Office",
+        image: "/image.png"
+      },
       features: [
         "Prime Upper West Side location",
         "Near Central Park",
@@ -249,11 +261,23 @@ export default function FeaturedPage() {
         "Multiple transit options",
         "High visibility location",
         "Close to major medical institutions",
+        "Ideal for medical specialists",
+        "ADA compliant",
+        "Recently renovated"
       ],
-      availableFrom: "Immediate",
-      virtualTour: false,
-      description: "Secure this spacious professional suite at 50 West 97th Street in the coveted Upper West Side. This well-proportioned space offers ample room for your growing practice, just steps from Central Park. Perfect for medical specialists and professionals requiring a prestigious Manhattan address with room to expand.",
-      fullDescription: "Secure this spacious professional suite at 50 West 97th Street in the coveted Upper West Side. This well-proportioned space offers ample room for your growing practice, just steps from Central Park. Perfect for medical specialists and professionals requiring a prestigious Manhattan address with room to expand.\n\nThe generous layout provides flexibility for multiple configurations, allowing you to create the ideal environment for your clients and staff. The building is easily accessible by public transportation, with several bus and subway lines nearby, making it convenient for everyone.\n\nThe Upper West Side is known for its cultural institutions, excellent schools, and proximity to Central Park, making it the perfect setting for a tenant dedicated to serving this affluent community. This location benefits from steady foot traffic and proximity to major medical institutions, ensuring your facility will be a well-known resource in the area.\n\nDon't miss this unique opportunity to lease a high-quality space in a high-demand neighborhood with boundless potential for growth and impact. Contact us today to learn more about this exceptional offering at 50 West 97th Street, New York, NY."
+      buildingAmenities: [
+        { icon: "🚲", name: "Bike room" },
+        { icon: "🛗", name: "Elevator" },
+        { icon: "🅿️", name: "Parking" },
+        { icon: "🧺", name: "Laundry in building" },
+        { icon: "📦", name: "Storage space" },
+        { icon: "👮", name: "24/7 Security" },
+        { icon: "🏥", name: "Medical waste disposal" }
+      ],
+      outdoorSpaces: [
+        { icon: "🌳", name: "Garden" },
+        { icon: "🏢", name: "Roof deck" },
+      ]
     },
   ];
 
